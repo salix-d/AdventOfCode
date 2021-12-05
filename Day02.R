@@ -1,5 +1,5 @@
 # =========================================================================
-# === salix-d; 2021.03.12
+# === salix-d; 2021.12.04
 # === AdventOfCode  DAY 2
 # =========================================================================
 
@@ -9,6 +9,7 @@ source("utils.R")
 # cat(input.mat, file = "input-day2.test.txt")
 # input.mat <- read.mat("input-day2.test.txt")
 input.mat <- read.mat("input-day2.txt")
+
 # --- PUZZLE 1 -------------------------------------------------------------
 calc_position <- function(mat, action, fun = `-`){
   val <- as.integer(mat[,2])
