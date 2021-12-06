@@ -3,4 +3,5 @@
 .RData
 .Ruserdata
 utils.R
-utils.R
+*.txt
+template.R
