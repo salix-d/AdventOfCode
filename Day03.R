@@ -3,40 +3,50 @@
 # === AdventOfCode  DAY 3
 # =========================================================================
 
-# --- PREP -----------------------------------------------------------------
-input.mat <- read.input2arrBits("input-day3.txt")
-
+# --- PREP DATA ------------------------------------------------------------
+input <- scan("input-day3.txt", character())
+make_bimat <- function(input){
+  lines <- strsplit(input, "")
+  mat <- t(vapply(lines, strtoi, integer(12)))
+  return(mat)
+}
+input.mat <- make_bimat(input)
+rm(input)
 # --- UTILS ----------------------------------------------------------------
-arrBit2Int <- function(arr){
-  return(strtoi(paste(arr, collapse=""), base=2))
+biArr2Int <- function(biArr){
+  biChar <- paste(biArr, collapse="")
+  bi <- strtoi(biChar, base=2)
+  return(bi)
 }
 
-get_mostCommon <- function(mat){
-  if(!is.null(dim(mat))){
-    n <- round(colMeans(mat+1))
-  } else {
-    n <- round(mean(mat+1))
-  }
-  return((0:1)[n])
+get_mostCommon <- function(arr, i){ UseMethod("get_mostCommon") } 
+get_mostCommon.matrix <- function(arr){
+  return(round(colMeans(arr)+1)-1)
+} 
+get_mostCommon.integer <- function(arr, i){
+  return(round(mean(arr)+1)-1)
 }
 
 # --- PUZZLE 1 -------------------------------------------------------------
 get_powerConsumption <- function(input.mat){
   g <- get_mostCommon(input.mat)
-  return(arrBit2Int(g) * arrBit2Int(abs(g-1)))
+  e <- as.integer(!g)
+  return(biArr2Int(g) * biArr2Int(e))
 }
 get_powerConsumption(input.mat)
 #3277364
 
 # --- PUZZLE 2 -------------------------------------------------------------
 get_lifeSupportRating <- function(input.mat){
-  out <- vapply(0:1, function(i){
+  out <- vapply(1:2, function(i){
+    test <- c(`!=`, `==`)
     for(n in seq(ncol(input.mat))){
-      bit <- abs(i-get_mostCommon(input.mat[,n]))
-      input.mat <- input.mat[input.mat[,n] == bit,]
+      bit <- get_mostCommon(input.mat[,n])
+      rows <- test[[i]](input.mat[,n], bit)
+      input.mat <- input.mat[rows,]
       if(is.null(dim(input.mat))) break
     }
-    return(arrBit2Int(input.mat))
+    return(biArr2Int(input.mat))
   }, numeric(1))
   return(prod(out))
 }
