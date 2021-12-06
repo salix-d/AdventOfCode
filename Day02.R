@@ -4,7 +4,10 @@
 # =========================================================================
 
 # --- PREP -----------------------------------------------------------------
-source("utils.R")
+read.mat <- function(inputfile, nCol = 2){
+  input <- scan(inputfile, what = character())
+  mat <- vapply(nCol:1-1, function(i) input[seq(input)%%nCol==i], character(length(input)/nCol))
+}
 # input.mat <- "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2"
 # cat(input.mat, file = "input-day2.test.txt")
 # input.mat <- read.mat("input-day2.test.txt")
