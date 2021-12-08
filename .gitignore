@@ -4,4 +4,7 @@
 .Ruserdata
 utils.R
 *.txt
+*.Rproj
+*.draft.R
+*.test.R
 template.R
